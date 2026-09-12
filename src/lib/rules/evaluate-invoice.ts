@@ -21,6 +21,10 @@ export function evaluateInvoice({
     };
   }
 
+  if (!invoice.supplier) {
+    reasons.push("Supplier name is missing.");
+  }
+
   if (!invoice.invoiceNumber) {
     reasons.push("Invoice number is missing.");
   }

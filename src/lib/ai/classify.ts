@@ -1,4 +1,4 @@
-import { ai } from "@/lib/ai/client";
+import { getAiClient } from "@/lib/ai/client";
 import { documentClassificationSchema } from "@/lib/validation/classification";
 
 export async function classifyDocument(text: string) {
@@ -8,7 +8,7 @@ export async function classifyDocument(text: string) {
     throw new Error("Document text is required");
   }
 
-  const response = await ai.chat.completions.create({
+  const response = await getAiClient().chat.completions.create({
     model: "openai/gpt-oss-20b",
     temperature: 0,
 

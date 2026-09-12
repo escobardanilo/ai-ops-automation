@@ -1,4 +1,4 @@
-import { ai } from "@/lib/ai/client";
+import { getAiClient } from "@/lib/ai/client";
 import { invoiceExtractionSchema } from "@/lib/validation/invoice";
 
 export async function extractInvoiceData(text: string) {
@@ -8,7 +8,7 @@ export async function extractInvoiceData(text: string) {
     throw new Error("Invoice text is required");
   }
 
-  const response = await ai.chat.completions.create({
+  const response = await getAiClient().chat.completions.create({
     model: "openai/gpt-oss-20b",
     temperature: 0,
 
@@ -37,7 +37,7 @@ Required format:
 
 Rules:
 
-- supplier must contain the supplier/company name.
+- supplier must contain the supplier/company name when present.
 - invoiceNumber must be null if not present.
 - amount must be a number, not a string.
 - currency should use ISO currency codes such as EUR, USD or GBP.

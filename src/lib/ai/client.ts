@@ -1,11 +1,20 @@
+import "server-only";
+
 import Groq from "groq-sdk";
 
-const apiKey = process.env.GROQ_API_KEY;
+let client: Groq | null = null;
 
-if (!apiKey) {
-  throw new Error("GROQ_API_KEY is missing");
+export function getAiClient() {
+  if (client) {
+    return client;
+  }
+
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    throw new Error("GROQ_API_KEY is missing");
+  }
+
+  client = new Groq({ apiKey });
+  return client;
 }
-
-export const ai = new Groq({
-  apiKey,
-});
