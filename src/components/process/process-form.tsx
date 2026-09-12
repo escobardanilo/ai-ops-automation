@@ -19,6 +19,7 @@ export function ProcessForm() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<WorkflowDetail | null>(null);
   const textPreview = useMemo(() => text.trim().slice(0, 420), [text]);
+  const isSubmissionReady = mode === "pdf" ? file !== null : text.trim().length >= 10;
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,7 +65,7 @@ export function ProcessForm() {
         )}
 
         {error ? <div className="inline-alert inline-alert-error" role="alert"><Icon name="alert" /><div><strong>Unable to process document</strong><p>{error}</p></div></div> : null}
-        <div className="form-actions"><p>AI interprets the document. TypeScript rules make the final decision.</p><button className="button button-primary" type="submit" disabled={loading || (mode === "pdf" ? !file : text.trim().length < 10)}>{loading ? <span className="spinner" /> : <Icon name="process" />}{loading ? "Processing…" : "Process with AI"}</button></div>
+        <div className="form-actions"><p>AI interprets the document. TypeScript rules make the final decision.</p><button className="button button-primary" type="submit" disabled={loading || !isSubmissionReady}>{loading ? <span className="spinner" /> : <Icon name="process" />}{loading ? "Processing…" : "Process with AI"}</button></div>
         {loading ? <p className="processing-note" role="status">Classification, extraction, business rules, persistence, and response generation are running.</p> : null}
       </form>
 

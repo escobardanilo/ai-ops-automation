@@ -1,6 +1,9 @@
 import "server-only";
 
+import { getData } from "pdf-parse/worker";
 import { PDFParse } from "pdf-parse";
+
+PDFParse.setWorker(getData());
 
 export class UnsupportedPdfError extends Error {}
 
